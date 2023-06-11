@@ -1,6 +1,7 @@
 import pygame
 from support import import_folder
 
+
 class Player(pygame.sprite.Sprite):
     def __init__(self, pos, surface, create_jump_particles):
         super().__init__()
@@ -79,7 +80,6 @@ class Player(pygame.sprite.Sprite):
         elif self.on_ceiling:
             self.rect = self.image.get_rect(midtop=self.rect.midtop)
 
-
     def run_dust_animation(self):
         if self.status == 'run' and self.on_ground:
             self.dust_frame_index += self.dust_animations_speed
@@ -112,8 +112,6 @@ class Player(pygame.sprite.Sprite):
         else:
             self.direction.x = 0
 
-
-
     def get_status(self):
         pressed_keys = pygame.key.get_pressed()
         self.pre_status = self.status
@@ -133,7 +131,6 @@ class Player(pygame.sprite.Sprite):
                     self.status = 'ready_to_jump'
                 else:
                     self.status = 'idle'
-
 
     def apply_gravity(self):
         self.direction.y += self.gravity

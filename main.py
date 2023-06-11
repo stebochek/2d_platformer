@@ -2,6 +2,7 @@ import pygame
 import sys
 from settings import *
 from level import Level
+from game_data import level1
 
 
 pygame.init()
