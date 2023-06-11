@@ -53,7 +53,7 @@ class Goal(Tile):
         self.frames = import_folder(path)
         self.frame_index = 0
         self.image = self.frames[self.frame_index]
-        self.animation_speed = 0.15
+        self.animation_speed = 0.07
 
     def animate(self):
         self.frame_index += self.animation_speed
