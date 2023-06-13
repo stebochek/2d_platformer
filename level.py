@@ -1,24 +1,32 @@
 import pygame
 from tiles import Tile, StaticTile, Coin, Goal
-from settings import *
+from settings import tile_size, screen_height, screen_width
 from player import Player
 from particles import ParticleEffect
-from support import *
+from support import import_from_csv, import_tiles
 from enemy import Enemy
+from background import Background, Water
+from game_data import levels
+
 
 class Level:
-    def __init__(self, level_data, surface):
+    def __init__(self, current_level, surface, create_overworld):
         # general setup
         self.display_surface = surface
         self.world_shift = 0
         self.current_x = 0
+
+        # overworld connection
+        self.create_overworld = create_overworld
+        self.current_level = current_level
+        level_data = levels[self.current_level]
+        self.new_max_level = level_data['unlock']
 
         # player
         player_layout = import_from_csv(level_data['player'])
         self.player = pygame.sprite.GroupSingle()
         self.goal = pygame.sprite.GroupSingle()
         self.player_setup(player_layout)
-
 
         # terrain setup
         terrain_layout = import_from_csv(level_data['terrain'])
@@ -31,6 +39,8 @@ class Level:
         # building
         building_layout = import_from_csv(level_data['building0'])
         self.building0_sprites = self.create_tile_group(building_layout, 'building0')
+
+
         building_layout = import_from_csv(level_data['building1'])
         self.building1_sprites = self.create_tile_group(building_layout, 'building1')
 
@@ -53,6 +63,11 @@ class Level:
         # dust
         self.dust_sprite = pygame.sprite.GroupSingle()
         self.player_on_ground = False
+
+        # background
+        self.sky = Background()
+        level_width = len(terrain_layout[0]) * tile_size
+        self.water = Water(screen_height - 20, level_width)
 
     def player_setup(self, layout):
         for row_index, row in enumerate(layout):
@@ -113,9 +128,9 @@ class Level:
                     if type == 'constraints':
                         sprite = Tile(tile_size, x, y)
 
-
                     sprite_group.add(sprite)
         return sprite_group
+
     def create_jump_particles(self, pos):
         if self.player.sprite.facing_right:
             pos -= pygame.math.Vector2(10, 5)
@@ -138,7 +153,6 @@ class Level:
                 offset = pygame.math.Vector2(-10, 15)
             fall_dust_particle = ParticleEffect(self.player.sprite.rect.midbottom - offset, 'land')
             self.dust_sprite.add(fall_dust_particle)
-
 
     def scroll_x(self):
         player = self.player.sprite
@@ -195,12 +209,21 @@ class Level:
         if player.on_ceiling and player.direction.y > 0:
             player.on_ceiling = False
 
-
     def enemy_collision(self):
         for enemy in self.enemy_sprites.sprites():
             if pygame.sprite.spritecollide(enemy, self.constaraints_sprite, False):
                 enemy.reverse()
+
+    def check_death(self):
+        if self.player.sprite.rect.top > screen_height:
+            self.create_overworld(self.current_level, 0)
+    def check_win(self):
+        if pygame.sprite.spritecollide(self.player.sprite, self.goal, False):
+            self.create_overworld(self.current_level, self.new_max_level)
     def run(self):
+
+        # background
+        self.sky.draw(self.display_surface)
 
         # terrain
         self.terrain_sprites.update(self.world_shift)
@@ -240,6 +263,9 @@ class Level:
         self.goal.update(self.world_shift)
         self.goal.draw(self.display_surface)
 
+        self.check_death()
+        self.check_win()
+
         # fence
         self.fence_sprites.update(self.world_shift)
         self.fence_sprites.draw(self.display_surface)
@@ -247,3 +273,6 @@ class Level:
         # grass
         self.grass_sprites.update(self.world_shift)
         self.grass_sprites.draw(self.display_surface)
+
+        # water
+        self.water.draw(self.display_surface, self.world_shift)
