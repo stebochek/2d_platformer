@@ -86,5 +86,6 @@ while True:
 
     game.run()
 
+    pygame.display.set_caption('<3')
     pygame.display.update()
     clock.tick(60)
