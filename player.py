@@ -1,6 +1,6 @@
+from math import sin
 import pygame
 from support import import_folder
-from math import sin
 
 
 def wave_value():
@@ -20,8 +20,7 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect(topleft=pos)
 
         # animation speed
-        self.idle_animations_speed = 0.15
-        self.not_idle_animations_speed = 0.15
+        self.animations_speed = 0.15
 
         # dust particles
         self.import_dust_run_particles()
@@ -72,14 +71,9 @@ class Player(pygame.sprite.Sprite):
     def animate(self):
         animation = self.animations[self.status]
 
-        if self.status == 'idle':
-            self.frame_index += self.idle_animations_speed
-            if self.frame_index >= len(animation):
-                self.frame_index = 0
-        else:
-            self.frame_index += self.not_idle_animations_speed
-            if self.frame_index >= len(animation):
-                self.frame_index = 0
+        self.frame_index += self.animations_speed
+        if self.frame_index >= len(animation):
+            self.frame_index = 0
 
         image = animation[int(self.frame_index)]
         if self.facing_right:
@@ -171,7 +165,7 @@ class Player(pygame.sprite.Sprite):
     def get_damage(self):
         if not self.invincible:
             self.hit_sound.play()
-            self.change_health(-10)
+            self.change_health(-20)
             self.invincible = True
             self.hurt_time = pygame.time.get_ticks()
 
