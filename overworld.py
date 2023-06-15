@@ -108,7 +108,7 @@ class Overworld:
     def get_movement_data(self, direction):
         start = pygame.math.Vector2(self.nodes.sprites()[self.current_level].rect.center)
 
-        if direction == 'forward':
+        if direction == 'forward' and (self.current_level + 1) <= self.max_level:
             end = pygame.math.Vector2(self.nodes.sprites()[self.current_level + 1].rect.center)
         else:
             end = pygame.math.Vector2(self.nodes.sprites()[self.current_level - 1].rect.center)
