@@ -2,6 +2,7 @@ import pygame
 from settings import screen_width, screen_height
 from tiles import AnimatedTile
 
+
 class Background:
     def __init__(self):
         self.background_1 = pygame.image.load('./graphics/background/sky/Background_1.png').convert_alpha()
@@ -19,14 +20,14 @@ class Background:
 class Water:
     def __init__(self, top, level_width):
         water_start = -screen_width
-        water_tile_width = 192
+        water_tile_width = 256
         amount_of_tiles = int((level_width + screen_width) / water_tile_width) * 2
         self.water_sprites = pygame.sprite.Group()
 
         for tile in range(amount_of_tiles):
             x = tile * water_tile_width + water_start
             y = top
-            sprite = AnimatedTile(192, x, y, './graphics/background/water')
+            sprite = AnimatedTile(192, x, y, './graphics/background/water', 0.075)
             self.water_sprites.add(sprite)
 
     def draw(self, surface, shift):
