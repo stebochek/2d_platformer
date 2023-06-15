@@ -4,11 +4,11 @@ from random import randint
 
 
 class Enemy(AnimatedTile):
-    def __init__(self, size, x, y):
-        super().__init__(size, x, y, './graphics/enemies/run')
+    def __init__(self, size, x, y, animation_speed):
+        super().__init__(size, x, y, './graphics/enemies/run', animation_speed)
         self.rect.y += size - self.image.get_size()[1]
         self.speed = randint(1, 2)
-        self.animation_speed = 0.15
+        self.animation_speed = animation_speed
 
     def move(self):
         self.rect.x += self.speed
