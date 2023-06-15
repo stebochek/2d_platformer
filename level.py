@@ -233,7 +233,6 @@ class Level:
 
     def check_death(self):
         if self.player.sprite.rect.top > screen_height:
-            self.create_overworld(self.current_level, 0)
             self.ch_death = True
             self.splash_sound.play()
 

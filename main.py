@@ -51,7 +51,7 @@ class Game:
         self.current_health += amount
 
     def check_game_over(self):
-        if self.current_health <= 0:
+        if self.current_health <= 0 or self.level.ch_death:
             self.current_health = 100
             self.coins = 0
             self.max_level = 0
@@ -59,8 +59,6 @@ class Game:
             self.status = 'overworld'
             self.level_music.stop()
             self.overworld_music.play(loops=-1)
-        if self.level.ch_death:
-            self.coins = 0
             self.level.ch_death = False
 
     def run(self):
