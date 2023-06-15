@@ -6,8 +6,8 @@ from settings import tile_size
 
 def import_from_csv(path):
     coordinates = []
-    with open(path) as map:
-        level = reader(map, delimiter=',')
+    with open(path) as field:
+        level = reader(field, delimiter=',')
         for row in level:
             coordinates.append(list(row))
     return coordinates
