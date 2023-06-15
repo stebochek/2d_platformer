@@ -15,7 +15,7 @@
 ## Установка прокета:
 ### Установка pygame:
 
-    pip install pygame
+    pip install -r requirements.txt
 
 ### Установка проекта на ваш компьютер:
     
