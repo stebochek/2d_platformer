@@ -257,7 +257,7 @@ class Level:
                 player_bottom = self.player.sprite.rect.bottom
                 if enemy_top < player_bottom < enemy_center and self.player.sprite.status == 'fall':
                     self.chiken_death.play()
-                    self.player.sprite.direction.y = -15
+                    self.player.sprite.direction.y = -16
                     self.change_coins(1)
                     death_sprite = ParticleEffect(enemy.rect.center, 'death')
                     self.death_sprites.add(death_sprite)
