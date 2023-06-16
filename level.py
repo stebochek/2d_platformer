@@ -17,6 +17,8 @@ def create_tile_group(layout, type_of_lay):
     building = import_tiles('./graphics/building/building.png')
     terrain_tile_list = import_tiles('./graphics/terrain/terrain.png')
 
+    buildings = ['grass', 'building0', 'building1', 'fence']
+
     for row_index, row in enumerate(layout):
         for col_index, val in enumerate(row):
             if val != '-1':
@@ -27,19 +29,7 @@ def create_tile_group(layout, type_of_lay):
                     tile_surface = terrain_tile_list[int(val)]
                     sprite = StaticTile(tile_size, x, y, tile_surface)
 
-                if type_of_lay == 'grass':
-                    tile_surface = building[int(val)]
-                    sprite = StaticTile(tile_size, x, y, tile_surface)
-
-                if type_of_lay == 'building0':
-                    tile_surface = building[int(val)]
-                    sprite = StaticTile(tile_size, x, y, tile_surface)
-
-                if type_of_lay == 'building1':
-                    tile_surface = building[int(val)]
-                    sprite = StaticTile(tile_size, x, y, tile_surface)
-
-                if type_of_lay == 'fence':
+                if type_of_lay in buildings:
                     tile_surface = building[int(val)]
                     sprite = StaticTile(tile_size, x, y, tile_surface)
 
