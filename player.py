@@ -121,7 +121,7 @@ class Player(pygame.sprite.Sprite):
     def get_input(self):
         pressed_keys = pygame.key.get_pressed()
 
-        if self.pre_status == 'ready_to_jump' and self.status != 'ready_to_jump' and self.on_ground:
+        if pressed_keys[pygame.K_SPACE] and self.on_ground:
             self.jump()
             self.create_jump_particles(self.rect.midbottom)
 
